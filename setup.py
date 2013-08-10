@@ -150,7 +150,8 @@ if os.path.exists("MANIFEST.in"):
 ext_modules = [
     Extension(
         "shapely.speedups._speedups",
-        ["shapely/speedups/_speedups.c"],
+        ["shapely/speedups/_speedups.c",
+         "shapely/speedups/split_line.c"],
         libraries=libraries )]
 
 try:

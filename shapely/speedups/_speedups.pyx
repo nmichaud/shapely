@@ -25,6 +25,9 @@ cdef extern from "geos_c.h":
     GEOSGeometry *GEOSGeom_createLinearRing_r(GEOSContextHandle_HS *, GEOSCoordSequence *)
     void GEOSGeom_destroy_r(GEOSContextHandle_HS *, GEOSGeometry *)
 
+cdef extern from "split_line.h":
+    GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_HS *, const GEOSCoordSequence *, double)
+
 cdef inline GEOSGeometry *cast_geom(unsigned long geom_addr):
     return <GEOSGeometry *>geom_addr
 
@@ -36,6 +39,12 @@ cdef inline GEOSCoordSequence *cast_seq(unsigned long handle_addr):
 
 def destroy(geom):
     GEOSGeom_destroy_r(cast_handle(lgeos.geos_handle), cast_geom(geom))
+
+def split_linestring_at_datetime(linestring, datelineOffset=10.):
+    cdef GEOSContextHandle_HS *handle = cast_handle(lgeos.geos_handle)
+    cdef GEOSCoordSequence *cs = GEOSGeom_getCoordSeq_r(handle, cast_geom(linestring))
+    cdef double offset = datelineOffset
+    return <unsigned long>GEOSGeom_splitLineStringDateline_r(handle, cs, offset), 2
 
 def geos_linestring_from_py(ob, update_geom=None, update_ndim=0):
     cdef double *cp
