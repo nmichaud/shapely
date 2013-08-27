@@ -83,7 +83,7 @@ class LineString(BaseGeometry):
 
     def parallel_offset(
         self, distance, side,
-        resolution=16, join_style=JOIN_STYLE.round, mitre_limit=1.0):
+        resolution=16, join_style=1, mitre_limit=1.0):
 
         """Returns a LineString or MultiLineString geometry at a distance from
         the object on its right or its left side.
