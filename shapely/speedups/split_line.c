@@ -1,8 +1,6 @@
 #define SWAP_DBL(a,b) do { double tmp = a; a = b; b = tmp; } while(0)
 
 #include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "split_line.h"
 
 typedef struct
