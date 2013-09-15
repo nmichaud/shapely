@@ -18,8 +18,6 @@ GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_t handle,
     double dfDiffSpace = 360 - dfDateLineOffset;
 
     unsigned int i, size;
-    //OGRLineString* poNewLS = new OGRLineString();
-    //poMulti->addGeometryDirectly(poNewLS);
 		
 		GEOSCoordSeq_getSize_r(handle, poLS, &size);
 
@@ -51,7 +49,6 @@ GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_t handle,
 								tmp[j].x = -180;
 							  tmp[j].y = dfY2;
 								j++;
-								//poNewLS->addPoint(-180, dfY2);
 
                 i++;
 
@@ -60,7 +57,6 @@ GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_t handle,
 								tmp[j].x = dfX2;
 							  tmp[j].y = dfY2;
 								j++;
-								//poNewLS->addPoint(dfX2, dfY2);
                 continue;
             }
             else if (dfX1 > dfLeftBorderX && dfX1 < 180 && dfX2 == -180 &&
@@ -70,7 +66,6 @@ GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_t handle,
 								tmp[j].x = 180;
 							  tmp[j].y = dfY2;
 								j++;
-								//poNewLS->addPoint(180, dfY2);
 
                 i++;
 								GEOSCoordSeq_getX_r(handle, poLS, i, &dfX2);
@@ -79,7 +74,6 @@ GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_t handle,
 								tmp[j].x = dfX2;;
 							  tmp[j].y = dfY2;
 								j++;
-								//poNewLS->addPoint(dfX2, dfY2);
 								continue;
             }
 
@@ -99,7 +93,6 @@ GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_t handle,
 								tmp[j].x = tp > dfLeftBorderX ? 180 : -180;
 							  tmp[j].y = dfY;
 								j++;
-                //poNewLS->addPoint(dfX1 > dfLeftBorderX ? 180 : -180, dfY);
                 // Copy into a new CoordSeq
 								GEOSCoordSequence* cs = GEOSCoordSeq_create_r(handle, j, 2);
 								for (t=0;t<j;t++)
@@ -110,14 +103,11 @@ GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_t handle,
 								subs[L] = GEOSGeom_createLineString_r(handle, cs);
                 L++;
 
-								//poNewLS = new OGRLineString();
                 j=0;
-                //poMulti->addGeometryDirectly(poNewLS);
 								GEOSCoordSeq_getX_r(handle, poLS, i-1, &tp);
 								tmp[j].x = tp > dfLeftBorderX ? -180 : 180;
 							  tmp[j].y = dfY;
 								j++;
-								//poNewLS->addPoint(dfX1 > dfLeftBorderX ? -180 : 180, dfY);
             }
             else
             {
@@ -129,16 +119,13 @@ GEOSGeometry *GEOSGeom_splitLineStringDateline_r(GEOSContextHandle_t handle,
 								}
 								subs[L] = GEOSGeom_createLineString_r(handle, cs);
                 L++;
-								//poNewLS = new OGRLineString();
 								j = 0;
-                //poMulti->addGeometryDirectly(poNewLS);
             }
         }
 				GEOSCoordSeq_getY_r(handle, poLS, i, &tp);
 				tmp[j].x = dfX;
 				tmp[j].y = tp;
 				j++;
-				//poNewLS->addPoint(dfX, poLS->getY(i));
     }
 		GEOSCoordSequence* cs = GEOSCoordSeq_create_r(handle, j, 2);
 		for (t=0;t<j;t++)
